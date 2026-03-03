@@ -1,0 +1,47 @@
+Generic single-database configuration.
+mkdir -p app/core
+mkdir -p app/models
+mkdir -p app/repositories
+mkdir -p app/services
+mkdir -p app/routers
+📁 3️⃣ Buat File Python Utama
+Core
+touch app/core/config.py
+touch app/core/database.py
+touch app/core/security.py
+Models
+touch app/models/user.py
+touch app/models/__init__.py
+Repositories
+touch app/repositories/user_repository.py
+touch app/repositories/__init__.py
+Services
+touch app/services/auth_service.py
+touch app/services/face_service.py
+touch app/services/__init__.py
+Routers
+touch app/routers/auth_router.py
+touch app/routers/home_router.py
+touch app/routers/__init__.py
+Root App
+touch app/main.py
+📁 4️⃣ Buat File Project Lainnya
+touch requirements.txt
+touch alembic.ini
+py -m venv venv
+venv\Scripts\activate
+
+pip install fastapi uvicorn sqlalchemy psycopg2-binary alembic python-jose passlib[bcrypt] face-recognition numpy pydantic-settings cmake dlib
+pip install
+pip install python-multipart
+ 
+pip freeze > requirements.txt
+pip install -r requirements.txt //jika pindah device
+
+alembic init alembic
+alembic revision --autogenerate -m "init"
+alembic upgrade head
+
+uvicorn app.main:app --reload
+
+
