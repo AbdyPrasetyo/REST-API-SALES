@@ -19,16 +19,28 @@ class AuthService:
             )
             
         hashed_password = hash_password(data.password)
-        new_user = User(
-            email=data.email,
-            password_hash=hashed_password,
-            jabatan=data.jabatan,
-            face_registered=False,
-            is_active=True
+        new_user                        = User(
+            email                       = data.email,
+            password_hash               = hashed_password,
+            # fullname                = data.fullname,
+            # username                = data.username,
+            # position                = data.position,
+            # initial_position        = data.initial_position,
+            # level                   = data.level,
+            # division                = data.division,
+            # department              = data.department,
+            # placement               = data.placement,
+            # branch_code             = data.branch_code,
+            # phone_number            = data.phone_number,
+            # email_department_head   = data.email_department_head,
+            # nik                     = data.nik,
+            # nik_old                 = data.nik_old,
+            face_registered         = False,
+            is_active               = True
         )
-        created_user = await self.user_repo.create(new_user)
+        created_user                = await self.user_repo.create(new_user)
         return UserResponse.model_validate(created_user)
-        
+
     async def authenticate_user_step1(self, email: str, password: str):
         user = await self.user_repo.get_by_email(email)
         if not user or not verify_password(password, user.password_hash):
@@ -42,6 +54,8 @@ class AuthService:
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Inactive user"
             )
+        if not user:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
             
         if not user.face_registered:
             return LoginResponseStep1(require_face_registration=True)
